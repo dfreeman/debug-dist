@@ -20,33 +20,33 @@ BROWSERIFY ?= $(NODE) $(BIN)/browserify
 all: dist/debug.js
 
 install: node_modules
-	
-node_modules: package.json
-	@NODE_ENV= $(PKG) install
-	@touch node_modules
-	
-lint: .FORCE
-	eslint browser.js debug.js index.js node.js
-	
-test-node: .FORCE
-	istanbul cover node_modules/mocha/bin/_mocha -- test/**.js
-	
-test-browser: .FORCE
+
+dist/debug.js:
 	mkdir -p dist
-	
+
 	@$(BROWSERIFY) \
 		--standalone debug \
 		. > dist/debug.js
-	
+
+node_modules: package.json
+	@NODE_ENV= $(PKG) install
+	@touch node_modules
+
+lint: .FORCE
+	eslint browser.js debug.js index.js node.js
+
+test-node: .FORCE
+	istanbul cover node_modules/mocha/bin/_mocha -- test/**.js
+
+test-browser: .FORCE dist/debug.js
 	karma start --single-run
-	rimraf dist
-	
+
 test: .FORCE
 	concurrently \
 		"make test-node" \
 		"make test-browser"
-	
-coveralls: 
+
+coveralls:
 	cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-	
+
 .PHONY: all install clean distclean

@@ -1,9 +1,9 @@
 {
-  "name": "debug",
+  "name": "debug-dist",
   "version": "2.6.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/visionmedia/debug.git"
+    "url": "git://github.com/dfreeman/debug-dist.git"
   },
   "description": "small debugging utility",
   "keywords": [
